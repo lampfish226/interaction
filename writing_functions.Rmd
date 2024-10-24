@@ -1,0 +1,240 @@
+---
+title: "Writing functions"
+author: "Jinghan Zhao"
+date: "2024-10-24"
+output: github_document
+---
+
+
+```{r setup, include = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+Load packages.
+
+```{r}
+library(rvest)
+library(readxl)
+```
+
+
+
+## Writing my first function!!
+
+as an example, here's a z-score computation
+
+```{r}
+x_vec = rnorm(n = 25, mean = 10, sd = 3.5)
+
+(x_vec - mean (x_vec)) / sd(x_vec)
+```
+
+Now I'll write a function to do this.
+
+```{r}
+z_scores = function(x) {
+  
+  if (!is.numeric(x)) {
+    stop("x needs to be numeric")
+  }
+  
+  if (length(x) < 5) {
+    stop("you need at least five numbers to compute the z score")
+  }
+  
+  z = (x - mean(x)) / sd(x)
+  
+  return(z)
+}
+
+z_scores(x = x_vec)
+```
+
+Does this always work?
+
+```{r error = TRUE}
+z_scores(x = 3)
+z_scores(x = c("A", "B", "C", "D"))
+```
+
+
+## A new function!
+
+```{r}
+mean_and_sd = function(x) {
+  
+  mean_x = mean(x)
+  sd_x = sd(x)
+  
+  out_df = 
+    tibble(
+      mean = mean_x,
+      sd = sd_x
+    )
+  
+  return(out_df)
+  
+}
+
+mean_and_sd(x_vec)
+```
+
+
+## Check stuff using a simulation
+
+```{r}
+sim_df = 
+  tibble(
+    x = rnorm(30, 10, 5)
+  )
+
+sim_df %>% 
+  summarize(
+    mean = mean(x),
+    sd = sd(x)
+  )
+```
+
+Simulation function to check sample mean and sd.
+
+```{r error = TRUE}
+sim_mean_sd = function(samp_size, true_mean, true_sd) {
+  
+  sim_df = 
+  tibble(
+    x = rnorm(samp_size, true_mean, true_sd)
+  )
+
+  out_df = 
+    sim_df %>% 
+    summarize(
+      mean = mean(x),
+      sd = sd(x)
+  )
+  
+  return(out_df)
+  
+}
+
+sim_mean_sd(samp_size = 3000, true_mean = 4, true_sd = 12)
+sim_mean_sd(true_mean = 4, true_sd = 12, samp_size = 30)
+
+sim_mean_sd(30, 10, 6)
+
+sim_mean_sd(30)
+```
+
+You can set default values. (also `samp_size` and you can overwrite it)
+
+```{r}
+sim_mean_sd = function(samp_size, true_mean = 10, true_sd = 5) {
+  
+  sim_df = 
+  tibble(
+    x = rnorm(samp_size, true_mean, true_sd)
+  )
+
+  out_df = 
+    sim_df %>% 
+    summarize(
+      mean = mean(x),
+      sd = sd(x)
+  )
+  
+  return(out_df)
+  
+}
+
+sim_mean_sd(30)
+```
+
+
+## Revisit LoTR words
+
+```{r}
+fellowship_df = 
+  read_excel("data/LotR_Words.xlsx", range = "B3:D6") %>% 
+  mutate(movie = "fellowship")
+
+two_towers_df = 
+  read_excel("data/LotR_Words.xlsx", range = "F3:H6") %>% 
+  mutate(movie = "two_towers")
+
+return_king_df = 
+  read_excel("data/LotR_Words.xlsx", range = "J3:L6") %>% 
+  mutate(movie = "return_king")
+```
+
+Let's do this using a function instead.
+
+```{r}
+lotr_import = function(cell_range, movie_name) {
+  
+  movie_df = 
+    read_excel("data/LotR_Words.xlsx", range = cell_range) %>% 
+    mutate(movie = movie_name) %>% 
+    janitor::clean_names() %>% 
+    pivot_longer(
+      female:male,
+      names_to = "sex", 
+      values_to = "words"
+    ) %>% 
+    select(movie, everything())
+  
+  return(movie_df)
+  
+}
+
+lotr_df = 
+  bind_rows(
+    lotr_import("B3:D6", "fellowship"),
+    lotr_import("F3:H6", "two_towers"),
+    lotr_import("J3:L6", "return_king")
+)
+```
+
+
+
+## NSDUH
+
+
+```{r}
+nsduh_url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
+
+nsduh_html = read_html(nsduh_url)
+
+marj_table = 
+  nsduh_html %>% 
+  html_table() %>% 
+  nth(1) %>% 
+  slice(-1) %>% 
+  mutate(drug = "marj")
+```
+
+```{r}
+source("source/nsduh_table_format.R")
+
+bind_rows(
+  nsduh_table_format(html = nsduh_html, 1, "marj"),
+  nsduh_table_format(html = nsduh_html, 4, "cocaine"),
+  nsduh_table_format(html = nsduh_html, 5, "heroin")
+)
+
+```
+
