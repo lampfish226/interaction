@@ -46,10 +46,10 @@ list_norm =
 list_norm[["b"]]
 ```
 
-    ##  [1]  9.5425725  8.0544640  1.1730438  4.3403048  5.6456708 11.5129136
-    ##  [7] -0.5614324  6.9146473  2.9036578 -0.4458351 14.3971332  4.3883510
-    ## [13]  8.8916898  1.0788506  3.2912415 13.4144229  9.2276748  2.7857779
-    ## [19]  2.6147541  5.8926312
+    ##  [1]  4.07069094 13.80655794 -1.69983278  2.42180965  3.81929320  5.07786561
+    ##  [7]  7.01116821 -0.83368248  0.07260634 -9.28771356  8.96974634 -1.65912934
+    ## [13]  4.03234027 11.07468391 15.13586383  5.72936179  7.33584918  5.35935060
+    ## [19]  2.96825169  6.36359655
 
 Let’s reuse function from last time
 
@@ -75,9 +75,9 @@ mean_and_sd(list_norm[["a"]])
 ```
 
     ## # A tibble: 1 × 2
-    ##     mean    sd
-    ##    <dbl> <dbl>
-    ## 1 -0.442  3.60
+    ##      mean    sd
+    ##     <dbl> <dbl>
+    ## 1 0.00800  3.98
 
 ``` r
 mean_and_sd(list_norm[["b"]])
@@ -86,16 +86,16 @@ mean_and_sd(list_norm[["b"]])
     ## # A tibble: 1 × 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  5.75  4.40
+    ## 1  4.49  5.64
 
 ``` r
 mean_and_sd(list_norm[["c"]])
 ```
 
     ## # A tibble: 1 × 2
-    ##    mean    sd
-    ##   <dbl> <dbl>
-    ## 1  2.83  9.57
+    ##     mean    sd
+    ##    <dbl> <dbl>
+    ## 1 -0.944  9.27
 
 ``` r
 mean_and_sd(list_norm[["d"]])
@@ -104,7 +104,7 @@ mean_and_sd(list_norm[["d"]])
     ## # A tibble: 1 × 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  5.18  7.34
+    ## 1  5.77  11.8
 
 ## Use a for loop
 
@@ -130,27 +130,27 @@ map(list_norm, mean_and_sd)
 
     ## $a
     ## # A tibble: 1 × 2
-    ##     mean    sd
-    ##    <dbl> <dbl>
-    ## 1 -0.442  3.60
+    ##      mean    sd
+    ##     <dbl> <dbl>
+    ## 1 0.00800  3.98
     ## 
     ## $b
     ## # A tibble: 1 × 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  5.75  4.40
+    ## 1  4.49  5.64
     ## 
     ## $c
     ## # A tibble: 1 × 2
-    ##    mean    sd
-    ##   <dbl> <dbl>
-    ## 1  2.83  9.57
+    ##     mean    sd
+    ##    <dbl> <dbl>
+    ## 1 -0.944  9.27
     ## 
     ## $d
     ## # A tibble: 1 × 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  5.18  7.34
+    ## 1  5.77  11.8
 
 Let’s do a couple of other things
 
@@ -222,9 +222,9 @@ mean_and_sd(listcol_df[["samp"]][["a"]])
 ```
 
     ## # A tibble: 1 × 2
-    ##     mean    sd
-    ##    <dbl> <dbl>
-    ## 1 -0.442  3.60
+    ##      mean    sd
+    ##     <dbl> <dbl>
+    ## 1 0.00800  3.98
 
 ``` r
 mean_and_sd(listcol_df[["samp"]][["b"]])
@@ -233,7 +233,7 @@ mean_and_sd(listcol_df[["samp"]][["b"]])
     ## # A tibble: 1 × 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  5.75  4.40
+    ## 1  4.49  5.64
 
 ``` r
 map(listcol_df[["samp"]], mean_and_sd)
@@ -241,27 +241,27 @@ map(listcol_df[["samp"]], mean_and_sd)
 
     ## $a
     ## # A tibble: 1 × 2
-    ##     mean    sd
-    ##    <dbl> <dbl>
-    ## 1 -0.442  3.60
+    ##      mean    sd
+    ##     <dbl> <dbl>
+    ## 1 0.00800  3.98
     ## 
     ## $b
     ## # A tibble: 1 × 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  5.75  4.40
+    ## 1  4.49  5.64
     ## 
     ## $c
     ## # A tibble: 1 × 2
-    ##    mean    sd
-    ##   <dbl> <dbl>
-    ## 1  2.83  9.57
+    ##     mean    sd
+    ##    <dbl> <dbl>
+    ## 1 -0.944  9.27
     ## 
     ## $d
     ## # A tibble: 1 × 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  5.18  7.34
+    ## 1  5.77  11.8
 
 ADD A LIST COLUMN!!!
 
@@ -275,10 +275,10 @@ listcol_df %>%
     ## # A tibble: 4 × 4
     ##   name  samp         output             iqr
     ##   <chr> <named list> <named list>     <dbl>
-    ## 1 a     <dbl [20]>   <tibble [1 × 2]>  4.35
-    ## 2 b     <dbl [20]>   <tibble [1 × 2]>  6.23
-    ## 3 c     <dbl [20]>   <tibble [1 × 2]> 13.4 
-    ## 4 d     <dbl [20]>   <tibble [1 × 2]> 10.7
+    ## 1 a     <dbl [20]>   <tibble [1 × 2]>  4.28
+    ## 2 b     <dbl [20]>   <tibble [1 × 2]>  5.26
+    ## 3 c     <dbl [20]>   <tibble [1 × 2]>  8.84
+    ## 4 d     <dbl [20]>   <tibble [1 × 2]> 15.2
 
 ``` r
 listcol_df %>% 
@@ -290,12 +290,12 @@ listcol_df %>%
 ```
 
     ## # A tibble: 4 × 4
-    ##   name    mean    sd   iqr
-    ##   <chr>  <dbl> <dbl> <dbl>
-    ## 1 a     -0.442  3.60  4.35
-    ## 2 b      5.75   4.40  6.23
-    ## 3 c      2.83   9.57 13.4 
-    ## 4 d      5.18   7.34 10.7
+    ##   name      mean    sd   iqr
+    ##   <chr>    <dbl> <dbl> <dbl>
+    ## 1 a      0.00800  3.98  4.28
+    ## 2 b      4.49     5.64  5.26
+    ## 3 c     -0.944    9.27  8.84
+    ## 4 d      5.77    11.8  15.2
 
 ## NSDUH
 
@@ -528,7 +528,44 @@ lm(tmax ~ tmin, data = weather_nest[["data"]][[3]])
     ## (Intercept)         tmin  
     ##       7.532        1.137
 
+Fit models with short function.
+
+``` r
+weather_lm = function (df) {
+  
+  lm(tmax ~ tmin, data = df)
+}
+```
+
+I could run the models using the short function.
+
+``` r
+weather_lm(weather_nest[["data"]][[1]])
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = tmax ~ tmin, data = df)
+    ## 
+    ## Coefficients:
+    ## (Intercept)         tmin  
+    ##       7.514        1.034
+
 Add regression result to a column.
+
+``` r
+weather_nest %>% 
+  mutate(model_fit = map(data, weather_lm))
+```
+
+    ## # A tibble: 3 × 4
+    ##   name           id          data               model_fit
+    ##   <chr>          <chr>       <list>             <list>   
+    ## 1 CentralPark_NY USW00094728 <tibble [730 × 4]> <lm>     
+    ## 2 Molokai_HI     USW00022534 <tibble [730 × 4]> <lm>     
+    ## 3 Waterhole_WA   USS0023B17S <tibble [730 × 4]> <lm>
+
+Another way: anonymous function (you can avoid this if confused)
 
 ``` r
 weather_nest %>% 
